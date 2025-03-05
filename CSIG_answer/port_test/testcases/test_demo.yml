@@ -1,0 +1,40 @@
+config:
+    name: "Test API testcase"
+    variables: {}
+
+teststeps:
+-
+    name: test_without_param_a
+    request:
+        method: GET
+        url: http://localhost:5000/test
+        params:
+            b: "nihao"
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.error_code", "0"]
+        - eq: ["body.error_message", "success"]
+
+-
+    name: test_with_param_a
+    request:
+        method: GET
+        url: http://localhost:5000/test
+        params:
+            a: 1
+            b: "nihao"
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.error_code", "0"]
+        - eq: ["body.error_message", "success"]
+
+-
+    name: test_missing_param_b
+    request:
+        method: GET
+        url: http://localhost:5000/test
+        params:
+            a: 1
+    validate:
+        - eq: ["status_code", 400]
+        - eq: ["body.error_code", "1"]
